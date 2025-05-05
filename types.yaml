@@ -1,0 +1,152 @@
+name: Comcast.Radius
+types:
+  webService:
+    capabilities: ["SupportsRecipes"]
+    apiVersions:
+      '2025-05-01-preview':
+        schema: 
+          type: object
+          properties:
+            environment:
+              type: string
+              description: "Required: The Radius environment; typically set by the rad CLI"
+            application:
+              type: string
+              description: "Optional: The application which the resource is associated with"
+            ingress:
+              type: boolean
+              description: "Optional: When true, provisions an L7 ingress gateway mapped to the port named http"
+            container:
+              type: object
+              properties:
+                image:
+                  type: string
+                  description: "Required: The container image"
+                ports:
+                  type: object
+                  properties:
+                    containerPort:
+                      type: string
+                      description: "Required: The port the container is listening on"
+                    protocol:
+                      type: string
+                      description: "Optional: The protocol the container listening on; defaults to tcp"
+                resources:
+                  type: object
+                  description: "Optional: The CPU and memory resources allocated to the container"
+                  properties:
+                    cpuRequest:
+                      type: integer
+                      description: "Optional: The minimum number of vCPU allocated to the container (0.5, 1, 2, etc.)"
+                    memoryRequest:
+                      type: string
+                      description: "Optional: The minimum amount of memory allocated to the container (128Mi, 1Gi, etc.)"
+                env:
+                  type: object
+                  description: "Optional: Environment variables injected into the application container"
+                  properties:
+                    value:
+                      type: string
+              required:
+              - image
+              - ports
+          required:
+          - environment
+          - container
+  externalService:
+      # The manualResourceProvisioning capability will be used in the future to 
+      # denote that the resource does not require a recipe. The SupportsRecipes
+      # capability will not be required in the future since it is the default.
+      # capabilities: ["manualResourceProvisioning"]
+      apiVersions:
+        '2025-05-01-preview':
+          schema: 
+            type: object
+            properties:
+              environment:
+                type: string
+                description: "Required: The Radius environment; typically set by the rad CLI"
+              application:
+                type: string
+                description: "Optional: The application which the resource is associated with"
+              connectionString:
+                type: string
+                description: "Required: When true, provisions an L7 ingress gateway mapped to the port named http"
+              credentials:
+                type: object
+                description: "Optional: Properties for storing authentication credentials"
+                properties:
+                  type:
+                    type: string
+                    description: "Required: The type of authentication used"
+                    enum:
+                    - basic
+                    - apiKey
+                    - jwt
+                  basicUserName:
+                    type: string
+                    description: "Optional: The username used for basic HTTP authentication"
+                  basicPassword:
+                    type: string
+                    description: "Optional: The password used for basic HTTP authentication"
+                  apiKey:
+                    type: string
+                    description: "Optional: apiKey string"
+                  jwt:
+                    type: string
+                    description: "Optional: JSON web token"
+                required:
+                - type
+            required:
+            - environment
+            - connectionString
+            - credentials
+  postgreSQL:
+    capabilities: ["SupportsRecipes"]
+    apiVersions:
+      '2025-05-01-preview':
+        schema: 
+          type: object
+          properties:
+            environment:
+              type: string
+              description: "Required: The Radius environment; typically set by the rad CLI"
+            application:
+              type: string
+              description: "Optional: The application which the resource is associated with"
+            database:
+              type: string
+              description: "Required: The name of the database"
+            status:
+              type: object
+              properties:
+                binding:
+                  type: object
+                  properties:
+                    host:
+                      type: string
+                      description: "Read only: The host name of the database server"
+                    port:
+                      type: string
+                      description: "Read only: The port number of the database server"
+                    username:
+                      type: string
+                      description: "Read only: The username for the database"
+                    password:
+                      type: string
+                      description: "Read only: The password for the database"
+  openAI:
+    capabilities: ["SupportsRecipes"]
+    apiVersions:
+      '2025-05-01-preview':
+        schema: 
+          type: object
+          properties:
+            environment:
+              type: string
+              description: "Required: The Radius environment; typically set by the rad CLI"
+            application:
+              type: string
+              description: "Optional: The application which the resource is associated with"
+          required:
+          - environment
