@@ -1,5 +1,5 @@
 extension radius
-extension comcast
+extension cableco
 
 param environment string
 
@@ -10,7 +10,7 @@ resource todolist 'Applications.Core/applications@2023-10-01-preview' = {
   }
 }
 
-resource frontend 'Comcast.Radius/webService@2023-10-01-preview' = {
+resource frontend 'CableCo.Radius/webService@2023-10-01-preview' = {
   name: 'frontend'
   properties: {
     application: todolist.id
@@ -19,7 +19,7 @@ resource frontend 'Comcast.Radius/webService@2023-10-01-preview' = {
     container: {
       image: 'ghcr.io/radius-project/samples/demo:latest'
       ports: {
-        web: {
+        http: {
           containerPort: 3000
         }
       }
@@ -38,17 +38,27 @@ resource frontend 'Comcast.Radius/webService@2023-10-01-preview' = {
         }
         CONNECTION_POSTGRESQL_PASSWORD: {
           value: db.properties.status.binding.password
-        }   
+        } 
+        CONNECTION_JIRA_HOST: {
+          value: jira.properties.connectionString
+        }
+        CONNECTION_JIRA_API_KEY: {
+          value: jira.properties.credentials.apiKey
+        }
       }
     }
   }
 }
 
-resource db 'Comcast.Radius/postgreSQL@2025-05-01-preview' = {
+resource db 'CableCo.Radius/postgreSQL@2023-10-01-preview' = {
   name: 'db'
   properties: {
     application: todolist.id
     environment: environment
     database: 'todolist'
   }
+}
+
+resource jira 'CableCo.Radius/externalService@2023-10-01-preview' existing =  {
+  name: 'jira'
 }
