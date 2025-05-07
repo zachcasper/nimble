@@ -1,4 +1,5 @@
-name: CableCo.Radius
+# This will be namespace in the future
+name: Radius.Resources
 types:
   webService:
     # This will not be required in the future since it is the default.
@@ -57,7 +58,7 @@ types:
   externalService:
       # The manualResourceProvisioning capability will be used in the future to 
       # denote that the resource does not require a recipe. The SupportsRecipes
-      # capability will not be required in the future since it is the default.
+      # capability will not be required in the future since it will be the default.
       # capabilities: ["manualResourceProvisioning"]
       apiVersions:
         '2023-10-01-preview':

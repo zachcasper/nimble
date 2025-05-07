@@ -1,8 +1,8 @@
-# CableCo Example
+# Nimble Example
 This repository is an example Radius setup for an application with four Radius resource types:
  
 
-In the future, we will implement a `CableCo.Radius/openAI` which deploys a model using Azure OpenAI.
+In the future, we will implement a `Radius.Resources/openAI` which deploys a model using Azure OpenAI.
 
 ## Overview of sample
 
@@ -10,11 +10,11 @@ This sample has the following components:
 
 #### 1. Three resource type definitions defined in YAML in types.yaml: 
 
-* `CableCo.Radius/webService` – A resource type which deploys a containerized service. The resource type has a container property based on the Applications.Core/containers resource type. This makes it trivial to pass the container property to the Applications.Core/containers resource in the recipe. The ingress property is used by the developer to specify whether a Applications.Core/gateways should also be created. 
+* `Radius.Resources/webService` – A resource type which deploys a containerized service. The resource type has a container property based on the Applications.Core/containers resource type. This makes it trivial to pass the container property to the Applications.Core/containers resource in the recipe. The ingress property is used by the developer to specify whether a Applications.Core/gateways should also be created. 
 
-* `CableCo.Radius/postgreSQL` – A PostgreSQL database. The only property is setting the database name.
+* `Radius.Resources/postgreSQL` – A PostgreSQL database. The only property is setting the database name.
 
-* `CableCo.Radius/externalService` – This resource type is used to represent a service which is not mananaged by Radius. Since there is no recipe and no actual resource deployed, it functions similar to a Kubernetes, ConfigMap.
+* `Radius.Resources/externalService` – This resource type is used to represent a service which is not mananaged by Radius. Since there is no recipe and no actual resource deployed, it functions similar to a Kubernetes, ConfigMap.
 
 #### 2. A recipe implemented in Bicep for the webServices resource type. 
 
@@ -34,11 +34,11 @@ Note that resource type names are camelCase and case sensitive.
 
 ### Create Bicep extension
 ```
-rad bicep publish-extension -f types.yaml --target cableco.tgz
+rad bicep publish-extension -f types.yaml --target radiusResources.tgz
 ```
 
 ### Verify bicepconfig.json
-Open bicepconfig.json and verify the `cableco` extension is referencing the correct archive file. Bicep extensions in the same working directory can be the filename only. If you move the bicepconfig.json file or the extension archive, you must specify the full file path (not a relative path).
+Open bicepconfig.json and verify the `radiusResources` extension is referencing the correct archive file. Bicep extensions in the same working directory can be the filename only. If you move the bicepconfig.json file or the extension archive, you must specify the full file path (not a relative path).
 
 ### Publish recipes
 This sample demonstrates recipes using both Terraform configurations and Bicep templates. Using Bicep templates for recipes has the advantage of being able to use Radius resource types in the recipe. In this sample, the recipe for the webService resource type uses the containers and gateways resource types. Terraform can only define resources from existing Terraform providers. We do not have a Radius resource provider for Terraform yet so it is not possible to use the containers or gateways resources in Terraform.
@@ -68,9 +68,9 @@ nimble    Applications.Core/environments  default   Succeeded
 ```
 Confirm the Jira externalService resource was created.
 ```
-$ rad resource list CableCo.Radius/externalService
+$ rad resource list Radius.Resources/externalService
 RESOURCE  TYPE                            GROUP     STATE
-jira      CableCo.Radius/externalService  default   Succeeded
+jira      Radius.Resources/externalService  default   Succeeded
 ```
 
 ## Deploy the todolist application

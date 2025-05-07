@@ -1,5 +1,5 @@
 extension radius
-extension cableco
+extension radiusResources
 
 param environment string
 
@@ -10,7 +10,7 @@ resource todolist 'Applications.Core/applications@2023-10-01-preview' = {
   }
 }
 
-resource frontend 'CableCo.Radius/webService@2023-10-01-preview' = {
+resource frontend 'Radius.Resources/webService@2023-10-01-preview' = {
   name: 'frontend'
   properties: {
     application: todolist.id
@@ -50,7 +50,7 @@ resource frontend 'CableCo.Radius/webService@2023-10-01-preview' = {
   }
 }
 
-resource db 'CableCo.Radius/postgreSQL@2023-10-01-preview' = {
+resource db 'Radius.Resources/postgreSQL@2023-10-01-preview' = {
   name: 'db'
   properties: {
     application: todolist.id
@@ -59,6 +59,6 @@ resource db 'CableCo.Radius/postgreSQL@2023-10-01-preview' = {
   }
 }
 
-resource jira 'CableCo.Radius/externalService@2023-10-01-preview' existing =  {
+resource jira 'Radius.Resources/externalService@2023-10-01-preview' existing =  {
   name: 'jira'
 }

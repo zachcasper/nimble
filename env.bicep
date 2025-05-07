@@ -1,21 +1,21 @@
 extension radius
-extension cableco
+extension radiusResources
 
 resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
   name: 'nimble'
   properties: {
     compute: {
       kind: 'kubernetes'   // Required. The kind of container runtime to use
-      namespace: 'nimble2' // Required. The Kubernetes namespace in which to render application resources
+      namespace: 'nimble' // Required. The Kubernetes namespace in which to render application resources
     }
     recipes: {
-      'CableCo.Radius/webService': {
+      'Radius.Resources/webService': {
         default: {
           templateKind: 'bicep'
           templatePath: 'ghcr.io/zachcasper/recipes/webservice:latest'
         }
       }
-      'CableCo.Radius/postgreSQL': {
+      'Radius.Resources/postgreSQL': {
         default: {
           templateKind: 'terraform'
           templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/postgresql'
@@ -25,7 +25,8 @@ resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
   }
 }
 
-resource jira 'CableCo.Radius/externalService@2023-10-01-preview' = {
+// Shared resource for all applications representing an external service
+resource jira 'Radius.Resources/externalService@2023-10-01-preview' = {
   name: 'jira'
   properties:{
     connectionString: 'https://api.atlassian.com/ex/jira/<cloudId>/rest/api/3/<resource-name>'
