@@ -20,6 +20,15 @@ resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
           templateKind: 'terraform'
           templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/postgresql'
         }
+      'Radius.Resources/openAI': {
+        default: {
+          templateKind: 'terraform'
+          templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/azure/openAI'
+          parameters: {
+            resource_group_name: 'reabdul'
+            location: 'eastus'
+          }
+        }
       }
     }
   }

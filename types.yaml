@@ -116,24 +116,64 @@ types:
             application:
               type: string
               description: "Optional: The application which the resource is associated with"
+            size:
+              type: string
+              description: "Required: The size of the database"
             database:
               type: string
-              description: "Required: The name of the database"
-            status:
-              type: object
-              properties:
-                binding:
-                  type: object
-                  properties:
-                    host:
-                      type: string
-                      description: "Read only: The host name of the database server"
-                    port:
-                      type: string
-                      description: "Read only: The port number of the database server"
-                    username:
-                      type: string
-                      description: "Read only: The username for the database"
-                    password:
-                      type: string
-                      description: "Read only: The password for the database"
+              description: "Read only: The database name"
+              readOnly: true
+            host:
+              type: string
+              description: "Read only: The host name of the database server"
+              readOnly: true
+            port:
+              type: string
+              description: "Read only: The port number of the database server"
+              readOnly: true
+            username:
+              type: string
+              description: "Read only: The username for the database"
+              readOnly: true
+            password:
+              type: string
+              description: "Read only: The password for the database"
+              readOnly: true
+          required:
+              - environment
+              - size    
+  openAI:
+    capabilities: ["SupportsRecipes"]
+    apiVersions:
+      '2023-10-01-preview':
+        schema: 
+          type: 'object'
+          properties: 
+            environment:
+              type: string
+              description: "Required: The Radius environment; typically set by the rad CLI"
+            application:
+              type: string
+              description: "Optional: The application which the resource is associated with"
+            capacity:
+              type: string
+              description: "Required: The capacity of the API. Valid values: 'S', 'M', 'L'." 
+            apiKey: 
+              type: string
+              description: "Read-only: The key that can be used to connect to the API."
+              readOnly: true
+            apiVersion:
+              type: string
+              description: "Read-only: The version of the OpenAI API."
+              readOnly: true
+            deployment:
+              type: string
+              description: "Read-only: The deployment name, used by the OpenAI SDK to connect to the API."
+              readOnly: true
+            endpoint:
+              type: string
+              description: "Read-only: The endpoint URL of the OpenAI API."
+              readOnly: true
+          required:
+              - environment
+              - capacity  

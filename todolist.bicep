@@ -1,4 +1,5 @@
 extension radius
+
 extension radiusResources
 
 param environment string
@@ -10,14 +11,14 @@ resource todolist 'Applications.Core/applications@2023-10-01-preview' = {
   }
 }
 
-resource frontend 'Radius.Resources/webService@2023-10-01-preview' = {
+resource frontend 'Applications.Core/containers@2023-10-01-preview' = {
   name: 'frontend'
   properties: {
     application: todolist.id
     environment: environment
-    ingress: true
     container: {
-      image: 'ghcr.io/radius-project/samples/demo:latest'
+      // This image has the openAI intergration
+      image: 'ghcr.io/reshrahim/demoai:latest'
       ports: {
         http: {
           containerPort: 3000
@@ -25,25 +26,37 @@ resource frontend 'Radius.Resources/webService@2023-10-01-preview' = {
       }
       env: {
         CONNECTION_POSTGRESQL_HOST: {
-          value: db.properties.status.binding.host
+          value: db.properties.host
         }
         CONNECTION_POSTGRESQL_PORT: {
-          value: string(db.properties.status.binding.port)
+          value: string(db.properties.port)
         }
         CONNECTION_POSTGRESQL_USERNAME: {
-          value: db.properties.status.binding.username
+          value: db.properties.username
         }
         CONNECTION_POSTGRESQL_DATABASE: {
           value: db.properties.database
         }
         CONNECTION_POSTGRESQL_PASSWORD: {
-          value: db.properties.status.binding.password
+          value: db.properties.password
         } 
         CONNECTION_JIRA_HOST: {
           value: jira.properties.connectionString
         }
         CONNECTION_JIRA_API_KEY: {
           value: jira.properties.credentials.apiKey
+        }
+        CONNECTION_AI_ENDPOINT: {
+          value: openai.properties.endpoint
+        }
+        CONNECTION_AI_DEPLOYMENT: {
+          value: openai.properties.deployment
+        }
+        CONNECTION_AI_APIKEY:{
+          value: openai.properties.apiKey
+        }
+        CONNECTION_AI_APIVERSION:{
+          value: openai.properties.apiVersion
         }
       }
     }
@@ -55,7 +68,16 @@ resource db 'Radius.Resources/postgreSQL@2023-10-01-preview' = {
   properties: {
     application: todolist.id
     environment: environment
-    database: 'todolist'
+    size: 'S'
+  }
+}
+
+resource openai 'Radius.Resources/openAI@2023-10-01-preview' = {
+  name: 'openai'
+  properties: {
+    application: todolist.id
+    environment: environment
+    capacity: 'S'
   }
 }
 

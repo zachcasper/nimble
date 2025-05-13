@@ -16,11 +16,15 @@ This sample has the following components:
 
 * `Radius.Resources/externalService` – This resource type is used to represent a service which is not mananaged by Radius. Since there is no recipe and no actual resource deployed, it functions similar to a Kubernetes, ConfigMap.
 
+* `Radius.Resources/openAI` – A resource type which deploys Azure OpenAI services. The only property is setting the capacity for the API.
+
 #### 2. A recipe implemented in Bicep for the webServices resource type. 
 
 #### 3. A recipe implemented in Terraform for the postgreSQL resource type.
 
-#### 4. An environment specification which includes the recipes and an externalService resource representing the cloud service Jira.
+#### 4. A recipe implemented in Bicep and Terraform for the openAI resource type.
+
+#### 5. An environment specification which includes the recipes and an externalService resource representing the cloud service Jira.
 
 ## Setup
 ### Create resource types
@@ -29,6 +33,7 @@ This sample has the following components:
 rad resource-type create webService -f types.yaml
 rad resource-type create postgreSQL -f types.yaml
 rad resource-type create externalService -f types.yaml
+rad resource-type create openAI -f types.yaml
 ```
 Note that resource type names are camelCase and case sensitive.
 
@@ -55,6 +60,9 @@ rad bicep publish --file recipes/webservice.bicep \
 
 **postgreSQL**
 Push the Terraform configuration to a Git repository. You must use the standard Terraform naming scheme. In this case, the main.tf file is in the postgreSQL directory. 
+
+**openAI**
+Push the Terraform configuration to a Git repository. You must use the standard Terraform naming scheme. In this case, the main.tf file is in the openAI directory and requires parameters resource group and location to be passed to the recipe while registering.
 
 ### Create environment with recipes registered and Jira externalService resource
 ```
