@@ -11,7 +11,7 @@ resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
     providers: {
       azure: {
         // Update subscription and resource group
-        scope: '/subscriptions/c95e0456-ea5b-4a22-a0cd-e3767f24725b/resourceGroups/nimble-dev'
+        scope: '/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>'
       }
     }
     recipes: {
