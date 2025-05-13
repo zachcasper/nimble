@@ -2,11 +2,17 @@ extension radius
 extension radiusResources
 
 resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
-  name: 'nimble'
+  name: 'nimble-dev'
   properties: {
     compute: {
-      kind: 'kubernetes'   // Required. The kind of container runtime to use
-      namespace: 'nimble' // Required. The Kubernetes namespace in which to render application resources
+      kind: 'kubernetes'
+      namespace: 'nimble-dev'
+    }
+    providers: {
+      azure: {
+        // Update subscription and resource group
+        scope: '/subscriptions/c95e0456-ea5b-4a22-a0cd-e3767f24725b/resourceGroups/nimble-dev'
+      }
     }
     recipes: {
       'Radius.Resources/webService': {
@@ -18,14 +24,16 @@ resource nimble 'Applications.Core/environments@2023-10-01-preview' = {
       'Radius.Resources/postgreSQL': {
         default: {
           templateKind: 'terraform'
-          templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/postgresql'
+          templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/kubernetes/postgresql'
         }
+      }
       'Radius.Resources/openAI': {
         default: {
           templateKind: 'terraform'
           templatePath: 'git::https://github.com/zachcasper/nimble.git//recipes/azure/openAI'
           parameters: {
-            resource_group_name: 'reabdul'
+            // Update resource group name
+            resource_group_name: 'nimble-dev'
             location: 'eastus'
           }
         }

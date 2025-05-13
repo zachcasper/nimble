@@ -56,7 +56,7 @@ resource "azurerm_cognitive_deployment" "gpt35" {
 output "result" {
   value = {
     values = {
-      apiVersion = "2025-01-01"
+      apiVersion = "2023-05-15"
       endpoint   = azurerm_cognitive_account.openai.endpoint
       deployment = "gpt-35-turbo"
     }

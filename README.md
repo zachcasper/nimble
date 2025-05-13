@@ -22,9 +22,16 @@ This sample has the following components:
 
 #### 3. A recipe implemented in Terraform for the postgreSQL resource type.
 
-#### 4. A recipe implemented in Bicep and Terraform for the openAI resource type.
+#### 4. A recipe implemented in Terraform for the openAI resource type.
 
 #### 5. An environment specification which includes the recipes and an externalService resource representing the cloud service Jira.
+
+## Prerequisites
+
+1. Radius CLI at least version 0.46 installed on the workstation
+2. Node.js installed on the workstation
+3. An AKS cluster
+4. A Git repository for storing the Terraform configurations; this tutorial will assumes anonymous access to the Git repository, if that is not the case see [this documentation](https://red-sea-07f97dc1e-1409.westus2.3.azurestaticapps.net/guides/recipes/terraform/howto-private-registry/)
 
 ## Setup
 ### Create resource types
@@ -65,14 +72,46 @@ Push the Terraform configuration to a Git repository. You must use the standard 
 Push the Terraform configuration to a Git repository. You must use the standard Terraform naming scheme. In this case, the main.tf file is in the openAI directory and requires parameters resource group and location to be passed to the recipe while registering.
 
 ### Create environment with recipes registered and Jira externalService resource
+Create a resource group for the environment.
 ```
-rad deploy env.bicep
+rad group create nimble-dev
 ```
+Update the env.bicep file with your Azure subscription and resource group (twice). You will need to update this block:
+```
+providers: {
+  azure: {
+    // Update subscription and resource group
+    scope: '/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>'
+  }
+}
+```
+And this block in the openAI recipe:
+```
+parameters: {
+  // Update resource group name
+  resource_group_name: 'nimble-dev'
+  location: 'eastus'
+}
+```
+Create the nimble-dev environment and the Jira resource in that environment.
+```
+rad deploy env.bicep --group nimble-dev
+```
+If you get a `Error: no environment name or ID provided, pass in an environment name or ID`, you may need to create a dummy environment as a workaround for [this bug](https://github.com/radius-project/radius/issues/9453).
+
+Create a workspace.
+```
+rad workspace create kubernetes nimble-dev \
+  --context `kubectl config current-context` \
+  --environment nimble-dev \
+  --group nimble-dev
+```
+
 Confirm the environment was created. You should see this output.
 ```
 $ rad environment list
-RESOURCE  TYPE                            GROUP     STATE
-nimble    Applications.Core/environments  default   Succeeded
+RESOURCE     TYPE                            GROUP     STATE
+nimble-dev   Applications.Core/environments  default   Succeeded
 ```
 Confirm the Jira externalService resource was created.
 ```

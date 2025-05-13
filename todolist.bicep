@@ -25,19 +25,19 @@ resource frontend 'Applications.Core/containers@2023-10-01-preview' = {
         }
       }
       env: {
-        CONNECTION_POSTGRESQL_HOST: {
+        CONNECTION_POSTGRES_HOST: {
           value: db.properties.host
         }
-        CONNECTION_POSTGRESQL_PORT: {
+        CONNECTION_POSTGRES_PORT: {
           value: string(db.properties.port)
         }
-        CONNECTION_POSTGRESQL_USERNAME: {
+        CONNECTION_POSTGRES_USERNAME: {
           value: db.properties.username
         }
-        CONNECTION_POSTGRESQL_DATABASE: {
+        CONNECTION_POSTGRES_DATABASE: {
           value: db.properties.database
         }
-        CONNECTION_POSTGRESQL_PASSWORD: {
+        CONNECTION_POSTGRES_PASSWORD: {
           value: db.properties.password
         } 
         CONNECTION_JIRA_HOST: {
