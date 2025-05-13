@@ -121,7 +121,7 @@ jira      Radius.Resources/externalService  default   Succeeded
 ```
 
 ## Deploy the todolist application
-This sample uses the todolist demo application from Radius. Deploy the application
+This sample uses the todolist demo application from Radius. Examine the todolist.bicep file and see that there is a reference to the pre-existing Jira resource. Deploy the application.
 ```
 rad deploy todolist.bicep
 ```
@@ -129,3 +129,31 @@ Get the URL for the gateway:
 ```
 rad resource show Applications.Core/gateways gateway -o json | grep url
 ```
+Browse to that URL and examine the environment variables for the PostgreSQL database, Jira, and OpenAI.
+
+Get the application graph.
+```
+rad app graph -a todolist
+```
+You should see the resources. This view is under active development so it is likely to change.
+
+## Clean Up
+
+Delete the application.
+```
+rad application delete -a todolist
+```
+Delete the environment.
+```
+rad environment delete nimble-dev
+```
+Delete the Radius resource group.
+```
+rad group delete nimble-dev
+```
+Delete the resource types.
+```
+rad resource-type delete Radius.Resources/externalService
+rad resource-type delete Radius.Resources/openAI
+rad resource-type delete Radius.Resources/postgreSQL
+rad resource-type delete Radius.Resources/webService

@@ -1,5 +1,4 @@
 extension radius
-
 extension radiusResources
 
 param environment string
@@ -11,11 +10,12 @@ resource todolist 'Applications.Core/applications@2023-10-01-preview' = {
   }
 }
 
-resource frontend 'Applications.Core/containers@2023-10-01-preview' = {
+resource frontend 'Radius.Resources/webService@2023-10-01-preview' = {
   name: 'frontend'
   properties: {
     application: todolist.id
     environment: environment
+    ingress: true
     container: {
       // This image has the openAI intergration
       image: 'ghcr.io/reshrahim/demoai:latest'
