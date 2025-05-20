@@ -1,16 +1,13 @@
 # Nimble Example
 This repository is an example Radius setup for an application with four Radius resource types:
 
-
-In the future, we will implement a `Radius.Resources/openAI` which deploys a model using Azure OpenAI.
-
 ## Overview of sample
 
 ![Nimble Demo](images/nimble-example.png)
 
 This sample has the following components:
 
-#### 1. Three resource type definitions defined in YAML in types.yaml: 
+#### 1. Four resource type definitions defined in YAML in types.yaml: 
 
 * `Radius.Resources/webService` – A resource type which deploys a containerized service. The resource type has a container property based on the Applications.Core/containers resource type. This makes it trivial to pass the container property to the Applications.Core/containers resource in the recipe. The ingress property is used by the developer to specify whether a Applications.Core/gateways should also be created. 
 
@@ -30,10 +27,10 @@ This sample has the following components:
 
 ## Prerequisites
 
-1. Radius CLI at least version 0.46 installed on the workstation
-2. Node.js installed on the workstation
-3. An AKS cluster
-4. A Git repository for storing the Terraform configurations; this tutorial will assumes anonymous access to the Git repository, if that is not the case see [this documentation](https://red-sea-07f97dc1e-1409.westus2.3.azurestaticapps.net/guides/recipes/terraform/howto-private-registry/)
+1. Rad CLI and Node.js installed on the workstation
+2. Radius installed on an AKS cluster with a service principal or workload identity configured using at least edge version 6b7aa8
+3. A Git repository for storing the Terraform configurations; this tutorial will assumes anonymous access to the Git repository, if that is not the case see [this documentation](https://red-sea-07f97dc1e-1409.westus2.3.azurestaticapps.net/guides/recipes/terraform/howto-private-registry/)
+4. An OCI container registry for storing Bicep templates
 
 ## Setup
 ### Create resource types
