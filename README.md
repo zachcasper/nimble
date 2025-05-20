@@ -1,10 +1,12 @@
 # Nimble Example
 This repository is an example Radius setup for an application with four Radius resource types:
- 
+
 
 In the future, we will implement a `Radius.Resources/openAI` which deploys a model using Azure OpenAI.
 
 ## Overview of sample
+
+![Nimble Demo](images/nimble-example.png)
 
 This sample has the following components:
 
@@ -110,14 +112,14 @@ rad workspace create kubernetes nimble-dev \
 Confirm the environment was created. You should see this output.
 ```
 $ rad environment list
-RESOURCE     TYPE                            GROUP     STATE
-nimble-dev   Applications.Core/environments  default   Succeeded
+RESOURCE     TYPE                            GROUP        STATE
+nimble-dev   Applications.Core/environments  nimble-dev   Succeeded
 ```
 Confirm the Jira externalService resource was created.
 ```
 $ rad resource list Radius.Resources/externalService
-RESOURCE  TYPE                            GROUP     STATE
-jira      Radius.Resources/externalService  default   Succeeded
+RESOURCE  TYPE                              GROUP        STATE
+jira      Radius.Resources/externalService  nimble-dev   Succeeded
 ```
 
 ## Deploy the todolist application
